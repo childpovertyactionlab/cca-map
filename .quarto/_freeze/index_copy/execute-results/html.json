@@ -1,0 +1,14 @@
+{
+  "hash": "9fcadfee54975c59e9f2b3bc90ea94da",
+  "result": {
+    "markdown": "---\npagetitle: \"Example Map Template\"\nformat: html\n---\n\n::: {.cell}\n\n:::\n\n\n::: column-screen-inset\n\n::: mainboxbox\n\n::: mainbox\n\n:::: card\n\n::: cardbox\n\n::: {.left-card-col .dark-col}\n\n::: {.card-side, style = \"width: 94%;\"}\n\n# Welcome to this map\n\n::: subtext\n\nSubtext\n\n:::\n\n:::\n\n:::\n\n::: right-card-col\n\n::: {style = \"width: 3%\"}\n:::\n\n:::\n\n::: card-side\n\n#### Content\n\n:::\n\n:::\n\n:::\n\n::::\n\n::: mapscroll-container\n\n\n```{=html}\n\n  <a href=\"javascript:void(0);\" class=\"scroll-link\" onclick=\"scrollToMap()\">\n      Click for map <i class=\"bi bi-chevron-down\"></i>\n  </a>\n\n```\n\n\n:::\n\n\n\n::: {.cell}\n::: {.cell-output .cell-output-error}\n```\nError: 'cpal_mapbox' is not an exported object from 'namespace:cpaltemplates'\n```\n:::\n\n::: {.cell-output .cell-output-error}\n```\nError in eval(expr, envir, enclos): object 'm' not found\n```\n:::\n:::\n\n```{=html javascript}\n\n<script>\nfunction scrollToMap() {\n    const element = document.getElementById('vendor-map');\n    const headerOffset = 70; // height of your fixed header\n    const elementPosition = element.getBoundingClientRect().top;\n    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;\n\n    window.scrollTo({\n        top: offsetPosition,\n        behavior: 'smooth'\n    });\n}\n</script>\n\n```\n\n\n:::\n\n:::\n\n:::",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

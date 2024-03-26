@@ -1,0 +1,159 @@
+"0","leaflet( data = by_zip, 
+         height = ""90vh"", 
+         width = ""100%"", 
+         elementId = ""cca-map"",
+         options = leafletOptions(
+           zoomControl = F,
+           zoomSnap = 0.5,
+           zoomDelta = 0.5,
+           minZoom = 9.5,
+           wheelPxPerZoomLevel = 90
+           )
+         ) %>%
+  addTiles(urlTemplate = cpaltemplates::cpal_mapbox_mono, attribution = cpaltemplates::cpal_leaflet) %>%
+  addPolygons(data = by_zip,
+              group = layers[[1]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[1]], domain = by_zip$providers)(providers),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$zip_5, ""</b><br>"",
+                             ""Providers: "", by_zip$providers),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(data = by_zip,
+              group = layers[[2]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[2]], domain = by_zip$subsidy)(subsidy),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$zip_5, ""</b><br>"",
+                             ""Subsidy dollars: "", scales::dollar(by_zip$subsidy), ""<br>"",
+                             ""(Subsidy dollars include cash and accrued)""),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(data = by_zip,
+              group = layers[[3]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[3]], domain = by_zip$quality)(quality),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$zip_5, ""</b><br>"",
+                             ""Quality dollars received: "", scales::dollar(by_zip$quality)),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(data = by_zip,
+              group = layers[[4]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[4]], domain = by_zip$children)(children),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$zip_5, ""</b><br>"",
+                             ""Number of children: "", by_zip$children),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(data = by_zip,
+              group = layers[[5]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[5]], domain = by_zip$visits)(visits),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$visits, ""</b><br>"",
+                             ""Number of visits: "", by_zip$visits),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(data = by_zip,
+              group = layers[[6]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[6]], domain = by_zip$visits_provider)(visits_provider),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$visits_provider, ""</b><br>"",
+                             ""Visits per provider: "", scales::number(by_zip$visits_provider, accuracy = 0.01)),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(data = by_zip,
+              group = layers[[7]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[7]], domain = by_zip$qd_provider)(qd_provider),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$qd_provider, ""</b><br>"",
+                             ""Quality dollars per provider: "", scales::dollar(by_zip$qd_provider)),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(data = by_zip,
+              group = layers[[8]],
+              fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[8]], domain = by_zip$qd_prop)(qd_prop),
+              stroke = TRUE, color = ""#FFFFFF"", weight = 1.5, opacity = 0,
+              popup = paste0(""<b>"", by_zip$qd_prop, ""</b><br>"",
+                             ""Percent of all quality dollars: "", scales::dollar(by_zip$qd_prop)),
+              highlight = highlightOptions(
+                weight = 1.5,
+                fillOpacity = 0.7,
+                color = ""#333333"",
+                opacity = 0.5,
+                bringToFront = TRUE,
+                sendToBack = TRUE)
+              ) %>%
+  addPolygons(
+    group = layers,
+    data = dallas_co,
+    fillColor = ""#333333"",
+    fillOpacity = 0.0, weight = 2, color = ""#333333"",
+    smoothFactor = 1,
+    options = pathOptions(clickable = F, interactive = F)
+  ) %>%
+  addLayersControl(
+    baseGroups = layers,
+    position = ""topleft"",
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  setMaxBounds(expanded_bounds[1], expanded_bounds[2], expanded_bounds[3], expanded_bounds[4])
+"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"
+"2","Warning: sf layer has inconsistent datum (+proj=longlat +datum=NAD83 +no_defs).
+Need '+proj=longlat +datum=WGS84'"

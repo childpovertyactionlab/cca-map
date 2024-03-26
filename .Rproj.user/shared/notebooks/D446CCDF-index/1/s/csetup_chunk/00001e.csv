@@ -1,0 +1,18 @@
+"0","by_zip <- cca %>%
+  group_by(zip_5) %>%
+  summarize(
+    providers = n(),
+    subsidy = sum(`fund paid for month (accrual)` + `fund paid in month (cash)`),
+    quality = sum(`Quality Dollars Received`),
+    children = sum(`Children Grand Total`),
+    visits = sum(`Total Visits`)
+  ) %>%
+  mutate(
+    visits_provider = visits/providers,
+    qd_provider = quality/providers,
+    qd_prop = quality/sum(cca$`Quality Dollars Received`)
+  ) %>%
+  left_join(zctas) %>%
+  st_as_sf()
+"
+"2","Joining with `by = join_by(zip_5)`"
