@@ -1,5 +1,5 @@
 ---
-pagetitle: "CCA"
+pagetitle: "Child Care Quality Allocations"
 format: html
 ---
 
@@ -57,7 +57,7 @@ by_zip <- cca %>%
   group_by(zip_5) %>%
   summarize(
     providers = n(),
-    subsidy = sum(`fund paid for month (accrual)` + `fund paid in month (cash)`),
+    subsidy = sum(`fund paid for month (accrual)`),
     quality = sum(`Quality Dollars Received`),
     children = sum(`Children Grand Total`),
     visits = sum(`Total Visits`)
@@ -74,7 +74,7 @@ summary_df <- cca %>%
   group_by(designation_desc, zip_5) %>%
   summarize(
     providers = n(),
-    subsidy = sum(`fund paid for month (accrual)` + `fund paid in month (cash)`),
+    subsidy = sum(`fund paid for month (accrual)`),
     quality = sum(`Quality Dollars Received`),
     children = sum(`Children Grand Total`),
     visits = sum(`Total Visits`)
@@ -90,21 +90,20 @@ library(reactable)
 
 summary_rt <- summary_df %>%
   reactable(
-    width = "53vw",
     groupBy = "designation_desc",
     paginateSubRows = TRUE,
-    defaultColDef = colDef(minWidth = 150),
+    defaultColDef = colDef(minWidth = 130),
     columns = list(
       designation_desc = colDef(
         name = "Rating",
         sticky = "left",
-        minWidth = 180,
+        minWidth = 160,
         grouped = JS("function(cellInfo) {
           return cellInfo.value
         }")),
       zip_5 = colDef(
         name = "ZIP",
-        sticky = "left",
+        # sticky = "left",
         format = colFormat(),
         filterable = T),
       providers = colDef(
@@ -113,13 +112,13 @@ summary_rt <- summary_df %>%
         aggregate = "sum"),
       subsidy = colDef(
         name = "Subsidy dollars", 
-        format = colFormat(currency = "USD", separators = TRUE),
-        minWidth = 165,
+        format = colFormat(currency = "USD", separators = TRUE, digits = 0),
+        minWidth = 145,
         aggregate = "sum"),
       quality = colDef(
         name = "Quality dollars",
-        format = colFormat(currency = "USD", separators = TRUE),
-        minWidth = 165,
+        format = colFormat(currency = "USD", separators = TRUE, digits = 0),
+        minWidth = 145,
         aggregate = "sum"),
       children = colDef(
         name = "Num. children", 
@@ -157,7 +156,7 @@ summary_rt <- summary_df %>%
       ),
       qd_prop = colDef(
         name = "Pct. of total QD",
-        format = colFormat(percent = TRUE, digits = 2),
+        format = colFormat(percent = TRUE, digits = 2, digits = 0),
         aggregate = JS(paste0("function(values, rows) {
           let totalQuality = 0
           let allQuality = ", sum(cca$`Quality Dollars Received`), "
@@ -177,37 +176,17 @@ summary_rt <- summary_df %>%
 ```{=html}
 <div class="mainboxbox">
 <div class="mainbox">
-```
 
-:::: {.card}
+<div class="card" style="overflow: hidden;">
 
-```{=html}
 <div class="cardbox">
 
-<div class="left-card-col dark-col">
-```
+<div class="left-card-col dark-col"></div>
 
-```{=html}
-  <div class="card-side" style="width: 94%;">
-```
-
-# Title
-
-```{=html}
-    <div class="subtext">
-      Write a description and/or choose a "big number" to go here
-    </div>
-  </div>
-</div>
-```
-
-```{=html}
 <div class="right-card-col">
 
-  <div style="width: 3%">
-  </div>
-
-  <div class="card-side">
+  <div class="card-side" style="width:100%">
+    <div style="color: #9e9e9e;; margin: 5px;">Horizontally scrollable table</div>
 ```    
 
 ```{r reactable}
@@ -220,9 +199,8 @@ summary_rt
 
 </div>
 
+</div>
 ```
-
-::::
 
 ```{=html}
 
@@ -238,20 +216,21 @@ summary_rt
 
 layers <- c("Providers", "Subsidy dollars", "Quality dollars", "Num. children", "Visits", "Visits/provider", "QD/provider", "Pct. of total QD")
 palette <- cpaltemplates::palette_cpal_main
+palette <- c(palette[-1], palette[1])
 
 palettes <- lapply(palette, function(color, n = 8) {colorRampPalette(c("#FFFFFF", color))(n)}, n = 8)
 
-leaflet( data = by_zip, 
-         height = "90vh", 
-         width = "100%", 
-         elementId = "cca-map",
-         options = leafletOptions(
-           zoomControl = F,
-           zoomSnap = 0.5,
-           zoomDelta = 0.5,
-           minZoom = 9.5,
-           wheelPxPerZoomLevel = 90
-           )
+leaflet(data = by_zip, 
+        height = "90vh", 
+        width = "100%", 
+        elementId = "cca-map",
+        options = leafletOptions(
+          zoomControl = F,
+          zoomSnap = 0.5,
+          zoomDelta = 0.5,
+          minZoom = 9.5,
+          wheelPxPerZoomLevel = 90
+          )
          ) %>%
   addTiles(urlTemplate = cpaltemplates::cpal_mapbox_mono, attribution = cpaltemplates::cpal_leaflet) %>%
   addPolygons(data = by_zip,
@@ -273,8 +252,7 @@ leaflet( data = by_zip,
               fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[2]], domain = by_zip$subsidy)(subsidy),
               stroke = TRUE, color = "#FFFFFF", weight = 1.5, opacity = 0,
               popup = paste0("<b>", by_zip$zip_5, "</b><br>",
-                             "Subsidy dollars: ", scales::dollar(by_zip$subsidy), "<br>",
-                             "(Subsidy dollars include cash and accrued)"),
+                             "Subsidy dollars: ", scales::dollar(by_zip$subsidy)),
               highlight = highlightOptions(
                 weight = 1.5,
                 fillOpacity = 0.7,
@@ -358,7 +336,7 @@ leaflet( data = by_zip,
               fillOpacity = 0.5, fillColor = ~colorNumeric(palette = palettes[[8]], domain = by_zip$qd_prop)(qd_prop),
               stroke = TRUE, color = "#FFFFFF", weight = 1.5, opacity = 0,
               popup = paste0("<b>", by_zip$zip_5, "</b><br>",
-                             "Percent of all quality dollars: ", scales::dollar(by_zip$qd_prop)),
+                             "Percent of all quality dollars: ", scales::percent(by_zip$qd_prop, accuracy = 0.01)),
               highlight = highlightOptions(
                 weight = 1.5,
                 fillOpacity = 0.7,

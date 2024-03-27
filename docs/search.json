@@ -2,8 +2,8 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Title",
+    "title": "Child Care Quality Allocations",
     "section": "",
-    "text": "Title\n    \n      Write a description and/or choose a \"big number\" to go here\n    \n  \n\n\n\n  \n  \n\n  \n\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n  \n      Click for map"
+    "text": "Error in colFormat(percent = TRUE, digits = 2, digits = 0): formal argument \"digits\" matched by multiple actual arguments\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  \n    Horizontally scrollable table\n\n\nError in eval(expr, envir, enclos): object 'summary_rt' not found\n\n\n  \n\n\n\n\n\n\n\n  \n      Click for map"
   }
 ]

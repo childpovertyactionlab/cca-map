@@ -27,7 +27,7 @@ format:
     echo: FALSE
     message: FALSE
 website:
-  title: "CCA"
+  title: "Child Care Quality Allocations"
   search:
     location: navbar
     type: textbox
@@ -46,8 +46,8 @@ website:
       right:
         - text: "<b>Menu<b>"
           menu:
-            - icon: house
-              text: "Home"
+            - icon: geo
+              text: "Map"
               href: index.html
             - icon: github
               text: "Github"
