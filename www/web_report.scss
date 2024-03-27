@@ -563,6 +563,21 @@ h6 {
     color: #919191; /* Slightly darker grey on hover for visual feedback */
 }
 
+.leaflet-container {
+  font-family: var(--bs-body-font-family) !important;
+}
+
+.leaflet-control {
+  border: 1px solid rgba(222,226,230,.75) !important; /* Same as bootstrap card */
+}
+
+.leaflet-control-attribution {
+  border: none !important; /*To cancel out above*/
+}
+
+.reactable {
+  font-size: calc(var(--bs-body-font-size) - 2px);
+}
 
 /*.info.show-description::after {
     display: inline;

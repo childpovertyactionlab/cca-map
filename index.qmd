@@ -143,7 +143,7 @@ summary_rt <- summary_df %>%
       ),
       qd_provider = colDef(
         name = "QD/provider",
-        format = colFormat(currency = "USD", separators = TRUE),
+        format = colFormat(currency = "USD", separators = TRUE, digits = 0),
         aggregate = JS("function(values, rows) {
           let totalQuality = 0
           let totalProviders = 0
@@ -156,7 +156,7 @@ summary_rt <- summary_df %>%
       ),
       qd_prop = colDef(
         name = "Pct. of total QD",
-        format = colFormat(percent = TRUE, digits = 2, digits = 0),
+        format = colFormat(percent = TRUE, digits = 2),
         aggregate = JS(paste0("function(values, rows) {
           let totalQuality = 0
           let allQuality = ", sum(cca$`Quality Dollars Received`), "
